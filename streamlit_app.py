@@ -1,6 +1,8 @@
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import streamlit as st
+
 
 # Function for image encryption
 def encrypt_images(images, params):
@@ -12,21 +14,13 @@ def encrypt_images(images, params):
 
         # Your encryption logic goes here
         # For illustration, let's just display the original and encrypted images
-        plt.subplot(1, 2, 1)
-        plt.imshow(rgb_array)
-        plt.title('Original Image')
-        plt.axis('off')
+        st.image(rgb_array, caption='Original Image', use_column_width=True, channels="RGB", format="PNG")
 
         # Placeholder for encryption logic
         # Replace this with your actual encryption code
-        encrypted_array = image1
+        encrypted_array = rgb_array  # Placeholder, replace this line
 
-        plt.subplot(1, 2, 2)
-        plt.imshow(image1)
-        plt.title('Encrypted Image')
-        plt.axis('off')
-
-        plt.show()
+        st.image(encrypted_array, caption='Encrypted Image', use_column_width=True, channels="RGB", format="PNG")
 
         encrypted_images.append(Image.fromarray(encrypted_array))
 
@@ -42,25 +36,18 @@ def decrypt_images(images, params):
 
         # Your decryption logic goes here
         # For illustration, let's just display the original and decrypted images
-        plt.subplot(1, 2, 1)
-        plt.imshow(rgb_array)
-        plt.title('Original Image')
-        plt.axis('off')
+        st.image(rgb_array, caption='Original Image', use_column_width=True, channels="RGB", format="PNG")
 
         # Placeholder for decryption logic
         # Replace this with your actual decryption code
-        decrypted_array = pixel_image
+        decrypted_array = rgb_array  # Placeholder, replace this line
 
-        plt.subplot(1, 2, 2)
-        plt.imshow(decrypted_array)
-        plt.title('Decrypted Image')
-        plt.axis('off')
-
-        plt.show()
+        st.image(decrypted_array, caption='Decrypted Image', use_column_width=True, channels="RGB", format="PNG")
 
         decrypted_images.append(Image.fromarray(decrypted_array))
 
     return decrypted_images
+
 # Streamlit UI layout
 def main():
     st.title('Multiple Image Encryption and Decryption')
