@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Image Encryption", page_icon="🔐", layout="wide")
+st.set_page_config(page_title="Image Encryption", page_icon="🔑", layout="wide")
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -16,7 +16,7 @@ def load_lottieurl(url):
 lottie_animation = load_lottieurl("https://lottie.host/7fb8dddb-7fe2-4e23-9007-e9ff888795a5/sJvysM9KMx.json")
 
 
-# Streamlit UI layout
+
 with st.container():
     left_column, right_column = st.columns((2, 1))
     with left_column:
