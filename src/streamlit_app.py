@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-from streamlit_lottie import st_lottie
+#from streamlit_lottie import st_lottie
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
