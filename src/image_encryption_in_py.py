@@ -1,18 +1,16 @@
-
-from google.colab import drive
-drive.mount('/content/drive')
-
+# %%
 import os
 import numpy as np
 from PIL import Image
-import cv2
 import matplotlib.pyplot as plt
-import hashlib
 
+
+# %%
 image_path = 'images/coast.jpg'
 image = Image.open(image_path)
 
 
+# %%
 # Extract RGB values from the original image
 rgb_array = np.array(image)
 plt.imshow(image)
@@ -22,11 +20,13 @@ plt.imshow(gray_image, cmap='gray')
 plt.axis('off')
 plt.show()
 
+# %%
 # Convert to numpy array and then to 8-bit binary
 gray_array = np.array(gray_image)
 
 print(gray_array)
 
+# %%
 # Create bit planes
 bit_planes = np.unpackbits(np.expand_dims(gray_array, axis=-1), axis=-1)
 # Reshape the bit planes to form a 3D array
@@ -37,6 +37,7 @@ print("Shape of the 3D array:", bit_planes_3d.shape)
 print("Small section of the array:")
 print(bit_planes_3d)  # Print the first 5x5 section of the bit planes
 
+# %%
 # Stack all bit planes horizontally to form a 3D cube
 bit_cube = np.concatenate([bit_planes_3d[:, :, 7 - bit][:, :, np.newaxis] for bit in range(8)], axis=-1)
 
@@ -50,6 +51,7 @@ for i, ax in enumerate(axes):
 
 plt.show()
 
+# %%
 # Shuffle the binary values in the 3D matrix
 shuffled_bit_planes_3d = 1 - bit_planes_3d
 
@@ -58,7 +60,8 @@ print("Shape of the shuffled 3D array:", shuffled_bit_planes_3d.shape)
 print("Small section of the shuffled array:")
 print(shuffled_bit_planes_3d)  # Print the first 5x5 section of the shuffled bit planes
 
-#Display the RGB img // remove this comment if needed to show the rgb image.
+# %%
+ #Display the RGB img // remove this comment if needed to show the rgb image.
 
 plt.imshow(rgb_array)
 plt.axis('off')
@@ -71,6 +74,7 @@ plt.gca().set_facecolor("None")
 
 plt.show()
 
+# %%
 # Define the encoding rule
 encoding_rule = {
     '00': 'A',
@@ -105,6 +109,8 @@ print("Shape of the mapped DNA array:", mapped_dna_array.shape)
 print("Small section of the mapped DNA array:")
 print(mapped_dna_array)  # Print the first 5x5 section of the mapped DNA array
 
+
+# %%
 # Function to convert DNA to RNA
 def convert_to_rna(dna_seq):
   rna_seq = ""
@@ -122,6 +128,7 @@ for i in range(mapped_dna_array.shape[0]):
 
 print(mapped_rna_array)
 
+# %%
 # RNA Translation rules
 rna_mutation_rules = {
     'A':'U',
@@ -145,6 +152,7 @@ for i in range(mapped_rna_array.shape[0]):
 
 print(mutated_rna_array)
 
+# %%
 # New RNA translation rules
 rna_translate_rules = {
     'A': 'U',
@@ -169,6 +177,8 @@ for i in range(mutated_rna_array.shape[0]):
 # Print the translated RNA array
 print(translated_rna_array)
 
+
+# %%
 rna_rules = {
   'A':'00',
   'U':'11',
@@ -185,6 +195,17 @@ for i in range(len(translated_rna_array)):
       binary_array[i,j,k*2:k*2+2] = [int(x) for x in rna_rules[base]]
 print("Shape of the 3D array:", binary_array.shape)
 print(binary_array)
+
+# %%
+# Number of rows and columns in the binary_array
+num_rows, num_cols, num_channels = binary_array.shape
+
+# Print the obtained dimensions
+print("Number of Rows:", num_rows)
+print("Number of Columns:", num_cols)
+print("Number of Channels:", num_channels)
+
+# %%
 
 # Initialize random 3D binary array
 binary_array = np.random.randint(0, 2, size=(num_rows, num_cols, num_channels))
@@ -219,33 +240,9 @@ plt.gca().set_facecolor("None")
 
 plt.show()
 
-encrypted_image_array = np.array(image)
-
-plt.axis('off')
-plt.gca().set_axis_off()
-plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
-plt.margins(0, 0)
-plt.gca().xaxis.set_major_locator(plt.NullLocator())
-plt.gca().yaxis.set_major_locator(plt.NullLocator())
-plt.gca().set_facecolor("None")
-
-plt.imshow(image, cmap='gray')
-
-# Get image dimensions
-rows, cols = enc_image.size
-print(enc_image.size)
-
-def revert_final_binary_conversion(image_array):
-    # Convert the grayscale image back to binary data
-    binary_data = np.unpackbits(image_array.astype(np.uint8), axis=-1)
-    return binary_data.reshape(image_array.shape + (8,))
-
-binary_data = revert_final_binary_conversion(encrypted_image_array)
 
 
-print(binary_data.shape)
-print(binary_data)
-
+# %%
 def reverse_binary_to_rna(binary_array):
     # Inverse of the RNA rules
     inverse_rna_rules = {
@@ -279,6 +276,8 @@ reversed_rna_array = reverse_binary_to_rna(binary_array)
 print("Reversed RNA Array (Section):")
 print(reversed_rna_array[:5, :5])  # Adjust indices as needed
 
+
+# %%
 # Reverse RNA Translation Function
 def reverse_translate_rna(seq):
     reverse_rna_translate_rules = {
@@ -306,6 +305,8 @@ for i in range(translated_rna_array.shape[0]):
 print("Reversed 2D RNA Array (Section):")
 print(reversed_2d_rna_array[:5, :5])  # Adjust indices as needed
 
+
+# %%
 # Reverse DNA to RNA Conversion Function
 def reverse_convert_to_dna(rna_seq):
     dna_seq = ""
@@ -328,6 +329,8 @@ for i in range(mapped_rna_array.shape[0]):
 print("Reversed DNA to RNA Array (Section):")
 print(reversed_dna_to_rna_array[:5, :5])  # Adjust indices as needed
 
+
+# %%
 # Reverse Encoding Rule
 reverse_encoding_rule = {
     'A': '00',
@@ -362,6 +365,8 @@ print("Shape of the reversed bit planes 3D array:", reversed_bit_planes_3d.shape
 print("Small section of the reversed bit planes 3D array:")
 print(reversed_bit_planes_3d[:5, :5, :])  # Adjust indices as needed
 
+
+# %%
 # Function to unscramble the matrix by flipping 1s to 0s and vice versa
 def unscramble_matrix(reversed_bit_planes_3d):
     unscrambled_bit_planes_3d = 1 - reversed_bit_planes_3d  # Flip 1s to 0s and vice versa
@@ -375,6 +380,22 @@ print("Shape of the unscrambled bit planes 3D array:", unscrambled_bit_planes_3d
 print("Small section of the unscrambled bit planes 3D array:")
 print(unscrambled_bit_planes_3d[:5, :5, :])  # Adjust indices as needed
 
+
+# %%
+# Stack all bit planes horizontally to form a 3D cube
+unscrambled_bit_cube = np.concatenate([reversed_bit_planes_3d[:, :, 7 - bit][:, :, np.newaxis] for bit in range(8)], axis=-1)
+
+# Display each bit plane as a subplot
+fig, axes = plt.subplots(1, 8, figsize=(20, 3))
+
+for i, ax in enumerate(axes):
+    ax.imshow(unscrambled_bit_cube[:, :, i], cmap='gray')
+    ax.set_title(f"Bit Plane {8 - i}")
+    ax.axis('off')
+
+plt.show()
+
+# %%
 # Function to convert a binary matrix to pixel values
 def binary_to_pixels(binary_matrix):
     # Reshape the binary matrix to a flat 1D array
@@ -408,6 +429,8 @@ plt.gca().set_facecolor("None")
 
 plt.show()
 
+
+# %%
 # Assuming you have the unscrambled grayscale image in 'pixel_image'
 # Convert the grayscale image to a color image using the stored RGB values
 color_image = np.stack((pixel_image,) * 3, axis=-1)
@@ -424,3 +447,7 @@ plt.gca().yaxis.set_major_locator(plt.NullLocator())
 plt.gca().set_facecolor("None")
 
 plt.show()
+
+
+
+
