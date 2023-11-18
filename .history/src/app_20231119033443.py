@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Image Encryption", page_icon="🔐", layout="wide")
+st.set_page_config(page_title="Image Encryption", page_icon="🔑", layout="wide")
 
 def load_lottieurl(url):
     r = requests.get(url)
