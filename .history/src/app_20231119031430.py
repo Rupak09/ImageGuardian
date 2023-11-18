@@ -4,6 +4,9 @@ from streamlit_lottie import st_lottie
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import io 
+import base64
+
 
 st.set_page_config(page_title="Image Encryption", page_icon="🔐", layout="wide")
 
@@ -17,6 +20,7 @@ lottie_animation = load_lottieurl("https://lottie.host/7fb8dddb-7fe2-4e23-9007-e
 
 
 # Streamlit UI layout
+
 with st.container():
     left_column, right_column = st.columns((2, 1))
     with left_column:
@@ -190,10 +194,19 @@ if uploaded_file is not None:
 
         st.success("Image Encrypted!")
 
-    if decryption_button:
-            # Add code for decryption here
-        # Add code for encryption here
-        image = Image.open(uploaded_file)
+       # If the user taps Decrypt Image without encrypting first, show an error for 3 seconds
+        if decryption_button and not st.session_state.encrypted_images_exist:
+            st.error("You can't decrypt without encrypting first.")
+            time.sleep(3)
+            st.empty()  # Empty the error message
+
+        # If the user taps Decrypt Image and images are encrypted, proceed with decryption
+        if decryption_button and st.session_state.encrypted_images_exist:
+            st.session_state.decrypted_images_exist = True
+            decrypted_images = decrypt_images(images, [param1])
+            st.subheader("Decrypted Images")
+            for img in decrypted_images:
+                st.image(img, caption='Decrypted Image', use_column_width=True)
 
         # Extract RGB values from the original image
         rgb_array = np.array(image)
@@ -451,6 +464,14 @@ if uploaded_file is not None:
         grayscale_image = np.stack((pixel_image,) * 3, axis=-1)
 
         # Display the grayscale image in Streamlit
-        st.image(grayscale_image, caption='Decrypted Grayscale Image', width=400)
+        # st.image(grayscale_image, caption='Decrypted Grayscale Image', width=400)
         st.image(uploaded_file,width=400)
-        st.success("Image Decrypted!") 
+        st.success("Image Decrypted!")
+     
+def get_download_link(image, filename, text):
+    buffered = io.BytesIO()
+    image.save(buffered, format="JPEG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    href = f'<a href="data:image/jpeg;base64,{img_str}" download="{filename}">{text}</a>'
+    return href
+       
