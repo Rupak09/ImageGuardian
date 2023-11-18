@@ -16,6 +16,7 @@ def load_lottieurl(url):
 lottie_animation = load_lottieurl("https://lottie.host/7fb8dddb-7fe2-4e23-9007-e9ff888795a5/sJvysM9KMx.json")
 
 
+
 with st.container():
     left_column, right_column = st.columns((2, 1))
     with left_column:
@@ -451,8 +452,6 @@ if uploaded_file is not None:
         grayscale_image = np.stack((pixel_image,) * 3, axis=-1)
 
         # Display the grayscale image in Streamlit
-        st.image(grayscale_image, caption='Decrypted Grayscale Image', width=400)
-
+        # st.image(grayscale_image, caption='Decrypted Grayscale Image', width=400)
         st.image(uploaded_file,width=400)
-
         st.success("Image Decrypted!")
