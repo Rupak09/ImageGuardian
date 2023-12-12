@@ -1,4 +1,4 @@
-##  How to Contribute to ImageGuardian??
+##  Open source contribution ImageGuardian.
 
 Welcome to ImageGuardian! We encourage you to get involved by either checking out existing issues or creating new ones. Here's a guide on how to contribute:
 
